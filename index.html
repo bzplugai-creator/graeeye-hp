@@ -1,0 +1,425 @@
+<!DOCTYPE html><html class="dark" lang="ko" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>GRAEEYE | 데이터 분석의 새로운 패러다임, XBI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#10b981",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#005236",
+                        "on-primary-container": "#6ffbbe",
+                        "secondary": "#39b8fd",
+                        "on-secondary": "#00344d",
+                        "background": "#0f172a",
+                        "on-background": "#f8fafc",
+                        "surface": "#1e293b",
+                        "on-surface": "#f8fafc",
+                        "surface-variant": "#334155",
+                        "on-surface-variant": "#94a3b8",
+                        "outline": "#475569",
+                        "outline-variant": "#334155",
+                        "error": "#ffb4ab",
+                        "on-error": "#690005",
+                        "surface-container": "#1e293b",
+                        "surface-container-low": "#0f172a",
+                        "surface-container-high": "#334155",
+                        "surface-container-highest": "#475569",
+                        "text-primary": "#f8fafc",
+                        "text-muted": "#94a3b8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "12px",
+                        "margin-mobile": "16px",
+                        "stack-lg": "48px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px",
+                        "stack-md": "24px",
+                        "unit": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-code": ["JetBrains Mono"],
+                        "headline-xl": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "label-caps": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "display-lg": ["Manrope"],
+                        "body-sm": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-code": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .aurora-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% -20%, rgba(16, 185, 129, 0.15), transparent 70%),
+                        radial-gradient(circle at 0% 100%, rgba(57, 184, 253, 0.05), transparent 50%),
+                        radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.05), transparent 50%);
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .aurora-animate {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 20%,
+                rgba(16, 185, 129, 0.05) 40%,
+                rgba(57, 184, 253, 0.05) 60%,
+                transparent 80%
+            );
+            filter: blur(100px);
+            animation: aurora-flow 20s linear infinite;
+        }
+
+        @keyframes aurora-flow {
+            0% { transform: translate(-25%, -25%) rotate(0deg); }
+            100% { transform: translate(-25%, -25%) rotate(360deg); }
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: #10b981;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+            background: rgba(30, 41, 59, 0.85);
+        }
+
+        .node-pulse {
+            position: relative;
+        }
+
+        .node-pulse::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: inherit;
+            border: 2px solid #10b981;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0; transform: scale(1.5); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<nav class="fixed top-0 left-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm transition-all duration-300 py-4">
+<div class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-2">
+<img alt="GRAEEYE Logo" class="h-8 w-auto object-contain brightness-0 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2O9wnFh_cIcTLG6UODAmmItZbavRVz6AuT_cagDNgq1mOay4OXCeC_o9p_klEk3xdmltKbaYNP6F6oWSiSYKFdjrR3VNIfdeNVp5yM0cNhrHHOzHHv2Qv9v-jG9b5OBksUBmA9ul6eCVClPPFGDsPzjgGS2UHLsnlXfiHU1b9Au2Z9xMOsHnVr0HiXifVOiFazqhrrmNAtdP-L4OVh2RO2IECOsqVVkdnWq2Amoe6yVO-0DN6qHF77qD0F-4ydzwrrz0xarL9ksbA">
+<span class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">GRAEEYE</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1" href="#">솔루션</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">기술혁신</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">비즈니스 임팩트</a>
+
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">문의하기</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold hover:scale-95 transition-transform active:scale-90">
+                데모 신청
+            </button>
+</div>
+</nav>
+<main>
+<section class="relative min-h-screen flex flex-col justify-center items-center text-center px-margin-mobile md:px-margin-desktop overflow-hidden transition-all duration-1000 opacity-100 translate-y-0 pt-40">
+<div class="aurora-bg">
+<div class="aurora-animate"></div>
+</div>
+<div class="relative z-10 max-w-4xl mx-auto space-y-stack-md">
+
+<h1 class="font-headline-xl text-headline-xl text-text-primary leading-tight">AI 시대, <span class="text-primary">데이터 분석의 새로운 패러다임</span></h1>
+<h2 class="font-headline-xl text-headline-xl text-text-primary mt-2"><div><span style="letter-spacing: -0.01em;">GRAEEYE XBI</span></div></h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                    단순 시각화를 넘어, 원인을 설명하고 스스로 진화하는 '기업의 데이터 두뇌'. <br>이제 질문으로 데이터 파악부터 분석, 시각화, 지능형 자산화까지 완성합니다.
+                </p>
+<div class="flex flex-wrap justify-center gap-4 pt-stack-sm">
+
+<button class="bg-transparent border border-secondary text-secondary px-8 py-4 rounded-full font-bold hover:bg-secondary/10 transition-all">
+                        제품이 궁금하다면?</button>
+</div>
+</div>
+<div class="relative mt-20 w-full max-w-container-max mx-auto px-4">
+<div class="glass-card rounded-xl p-4 md:p-8 aspect-video overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover rounded-lg shadow-lg opacity-90" data-alt="A sophisticated 3D futuristic AI core visualization for GRAEEYE XBI" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4s3luvGIPiIOOyZ5fx1K3WHcMV9PhKLy5P51fMPcSAWUs5WRJGdhvSbeViNjZf9dn_nzF0aPOqloR571GT71pJ1fUori3sK-rkdJIkE-Me3ECFpBWt4mDQ2hrBmokirXLtbXMwt2qBgTTZCHylrdJ4XvjI_NWhdGn759I6u3diyuXHBFrrHpwypujiMeqejsqAZM0zuYmbq44kEi_0gf6BlRqJTEFhILb82JIpbIjQomRfVp00ANmX9SVZcwewrG8hcx8Aak387VC" alt="GRAEEYE XBI Explainable Intelligence Node Visualization">
+</div>
+</div>
+</section>
+<section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto transition-all duration-1000 opacity-100 translate-y-0">
+<div class="text-center mb-16 space-y-stack-sm">
+<h2 class="font-headline-lg text-headline-lg text-text-primary">기존 데이터 분석의 3대 장벽</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">수작업과 IT 의존도가 비즈니스 속도를 늦춥니다</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="glass-card p-8 rounded-xl flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-full bg-surface-variant/30 flex items-center justify-center mb-6 border border-outline-variant group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary transition-colors">block</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4 text-text-primary">어렵다 (High Barrier)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">소수 전문가의 전유물</p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">SQL 등 전문 기술 지식 필수. 지나치게 긴 학습 시간으로 인해 현업 적용 실패.</p>
+</div>
+<div class="glass-card p-8 rounded-xl flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-full bg-surface-variant/30 flex items-center justify-center mb-6 border border-outline-variant group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary transition-colors">schedule</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4 text-text-primary">느리다 (Time Consuming)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">비즈니스 속도 저하</p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">단 하나의 리포트를 위해 데이터 추출, 개발, 검증의 복잡한 대기 시간 발생.</p>
+</div>
+<div class="glass-card p-8 rounded-xl flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-full bg-surface-variant/30 flex items-center justify-center mb-6 border border-outline-variant group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary transition-colors">lock</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4 text-text-primary">활용성 낮음 (Low Utility)</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6">단순 조회용 도구로 전락</p>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">1회성 정형 리포트로 끝나며, 비정형 데이터 분석이나 생성된 지식의 재활용 불가.</p>
+</div>
+</div>
+</section>
+<section class="py-stack-lg bg-surface-container-low/30 transition-all duration-1000 opacity-100 translate-y-0">
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="text-center mb-16 space-y-stack-sm">
+<h2 class="font-headline-lg text-headline-lg text-text-primary">BI에서 XBI로 <br>패러다임의 이동!</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">결과만 보는 시대를 지나 원인과 맥락을 이해하는 지능형 BI로</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-outline-variant/30 rounded-3xl overflow-hidden glass-card">
+<div class="p-12 border-b lg:border-b-0 lg:border-r border-outline-variant/30 relative">
+<div class="flex justify-between items-center mb-12">
+<h4 class="font-headline-md text-headline-md text-on-surface-variant opacity-60">기존 BI</h4>
+<span class="px-4 py-1 rounded bg-error/20 text-error font-label-sm text-label-sm uppercase tracking-wider">Traditional</span>
+</div>
+<div class="h-64 bg-background/50 rounded-xl mb-12 overflow-hidden border border-outline-variant/30">
+<img alt="Traditional BI limitations" class="w-full h-full object-cover opacity-30 grayscale" src="https://lh3.googleusercontent.com/aida/AP1WRLulWWjccl0_OeRj9saryAjXBPbsKZvSGeLdE4kMvT_X2k6WkdlROiEUA1UCj03EDzvLVj7hDAT8n-U7Ftdg3eht8rLV9jLkrtbNHus6IbFjIpTiDzWrkYF6R7AnoxDaLRWL-VYKPrDg4m34VPlj1YVsLAEO0n5DmLjgHMEl2GLoNmMKcLQOcL8xGdu7sc8bkIPEWS2p3UpSsBhk2O0UHLn_6HbVxTiiDUKEulZzazYYKyixBlbaqBlsyp87">
+</div>
+<ul class="space-y-4 text-on-surface-variant">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">close</span>
+                                수동 제작 및 긴 대기시간
+                            </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">close</span>
+                                제한적 사용자 접근 (데이터 전문가 위주)
+                            </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">close</span>
+                                정적 결과(What) 조회 중심
+                            </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error">close</span>
+                                학습 및 진화 기능 부재
+                            </li>
+</ul>
+</div>
+<div class="p-12 bg-primary/5 relative">
+<div class="flex justify-between items-center mb-12">
+<h4 class="font-headline-md text-headline-md text-primary">GRAEEYE XBI</h4>
+<span class="px-4 py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm uppercase tracking-wider">Innovative</span>
+</div>
+<div class="h-64 bg-background rounded-xl mb-12 flex items-center justify-center border border-primary/30 relative overflow-hidden shadow-inner">
+<div class="absolute inset-0 opacity-80">
+<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhPb_cFVf-qU3kYiLG8OUiQUYqbR6NmCMUIpQiatWUnO7eLj-G6J3dXKngr9v9h8plKv3DQWjBQMyPfPoh6NyGzOAEzVuhXwBoB5QdYjGe2ATKZzyp0PxkIy4TN02B1M_Bm3Lntj3KPTnBT9F0yNvvxT-c4iPryDfRWb3TLwdcx6lzDBP23_rDM3NNJSVc6SZRWSHxWAoVSZwko4w2xAWxkYZp3saRoeLZTDeg4AJ0wD8wixpo3eDsdsso2Q44gMD-PKdnGDssCaKm" alt="GRAEEYE XBI Flow" class="w-full h-full object-cover">
+</div>
+</div>
+<ul class="space-y-4 text-text-primary">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+                                실시간 분석 및 자동 시각화
+                            </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+                                전사 누구나 대화형 접근
+                            </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+                                결과에 대한 원인(What+Why)과 맥락 파악
+                            </li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">check_circle</span>
+                                쓰며 배우는 자가 진화형 두뇌
+                            </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="py-stack-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto transition-all duration-1000 opacity-100 translate-y-0">
+<div class="text-center mb-16 space-y-stack-sm">
+<h2 class="font-headline-lg text-headline-lg text-text-primary">Business Impact</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">GRAEEYE XBI가 만드는 기업의 혁신적 변화</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="glass-card p-6 rounded-2xl border border-outline-variant/30 hover:border-secondary transition-all">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary">groups</span>
+</div>
+<h5 class="font-headline-md text-headline-md mb-3 text-lg text-text-primary">데이터 민주화</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">누구나 질문하고 답을 얻는 환경을 구축하여 조직 전체의 데이터 리터러시 상향 평준화.</p>
+</div>
+<div class="glass-card p-6 rounded-2xl border border-outline-variant/30 hover:border-secondary transition-all">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary">bolt</span>
+</div>
+<h5 class="font-headline-md text-headline-md mb-3 text-lg text-text-primary">신속한 의사결정</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">수주가 걸리던 분석 리포트를 단 몇 분 만에 생성하여 시장 변화에 즉각 대응.</p>
+</div>
+<div class="glass-card p-6 rounded-2xl border border-outline-variant/30 hover:border-secondary transition-all">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary">inventory_2</span>
+</div>
+<h5 class="font-headline-md text-headline-md mb-3 text-lg text-text-primary">진정한 데이터 자산화</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">파편화된 데이터를 지식 체계로 구조화하여 기업의 핵심 자산으로 전환.</p>
+</div>
+<div class="glass-card p-6 rounded-2xl border border-outline-variant/30 hover:border-secondary transition-all">
+<div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary">psychology</span>
+</div>
+<h5 class="font-headline-md text-headline-md mb-3 text-lg text-text-primary">자가 진화형 AI</h5>
+<p class="font-body-sm text-body-sm text-on-surface-variant">사용자의 피드백을 실시간 학습하여 기업 고유의 비즈니스 언어를 스스로 이해.</p>
+</div>
+</div>
+<div class="mt-16 rounded-3xl overflow-hidden shadow-2xl relative h-96 group">
+<img alt="Futuristic AI data analysis" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-40 mix-blend-lighten" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf3YmQycNNBFYGIIpqZMFwCk_35v351h1J0LMXorNNjaJ281-B0NYWPiKEvb79KCGduZrPvyj_Dfh0DrqGzPoOX1_3Ij6xzUbI_eWnDlGsStc7pHaLgJrFlkUb8T_DHELemMK-E2S_80vxo8Tx0CFxh6jYRu4xfviSX-do3R8n9jhJVtUnPfpttujXZiVkzB4sbGMn3oEdDvXAboRqPfku59nu8_Yzz3LWNHh1SMXHwPObkjXjcTf9_J8h478rPOv0DRR6e8CGRDMr">
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent flex items-end p-12">
+<div class="max-w-2xl">
+<h4 class="font-headline-lg text-headline-lg text-text-primary mb-4">미래를 예측하고 원인을 설명합니다</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">GRAEEYE XBI는 단순한 툴이 아닙니다. 비즈니스 리더들의 가장 강력한 파트너가 되어 불확실성을 통찰로 바꿉니다.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-stack-lg bg-primary/10 relative overflow-hidden transition-all duration-1000 opacity-100 translate-y-0 border-y border-primary/20">
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto text-center relative z-10">
+<h2 class="font-headline-lg text-headline-lg text-text-primary mb-6">귀사의 데이터를 기업의 두뇌로 바꾸시겠습니까?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-2xl mx-auto">지금 바로 GRAEEYE 전문가 팀과 상담하여 최적의 XBI 솔루션을 설계해 보세요.</p>
+<div class="flex flex-col md:flex-row gap-4 justify-center">
+<input class="px-8 py-4 rounded-full bg-surface-container border border-outline-variant focus:border-primary focus:ring-2 focus:ring-primary/20 text-on-surface w-full max-w-md outline-none" placeholder="회사 이메일을 입력하세요" type="email">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-full font-bold hover:shadow-[0_10px_20px_rgba(16,185,129,0.3)] transition-all whitespace-nowrap">문의</button>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[100px] rounded-full"></div>
+<div class="absolute -bottom-24 -left-24 w-64 h-64 bg-secondary/10 blur-[100px] rounded-full"></div>
+</section>
+</main>
+<footer class="bg-surface-container-low border-t border-outline-variant/30 py-stack-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md w-full px-margin-desktop py-stack-lg max-w-container-max mx-auto">
+<div class="space-y-6">
+<div class="font-headline-md text-headline-md font-bold text-primary">GRAEEYE</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed max-w-md">
+                    설명 가능한 BI(XBI)를 통해 데이터 분석의 새로운 시대를 엽니다. <br>복잡한 데이터를 누구나 이해할 수 있는 비즈니스 가치로 변환합니다.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">share</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">mail</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div>
+<h6 class="font-label-caps text-label-caps text-text-primary mb-4">서비스</h6>
+<ul class="space-y-3 font-body-sm text-body-sm text-on-surface-variant">
+<li class=""><a class="hover:text-primary transition-colors" href="#">솔루션 소개</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">기술혁신</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">고객사례</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">문의하기</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-label-caps text-label-caps text-text-primary mb-4">정보</h6>
+<ul class="space-y-3 font-body-sm text-body-sm text-on-surface-variant">
+<li class=""><a class="hover:text-primary transition-colors" href="#">이용약관</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">개인정보처리방침</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">인재채용</a></li>
+<li class=""><a class="hover:text-primary transition-colors" href="#">기술 블로그</a></li>
+</ul>
+</div>
+</div>
+<div class="md:col-span-2 pt-12 border-t border-outline-variant/10">
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center opacity-60">
+                    © 2024 GRAEEYE. All rights reserved. 데이터 분석의 새로운 패러다임, XBI 솔루션.
+                </p>
+</div>
+</div>
+</footer>
+<script>
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2', 'bg-background/95', 'shadow-2xl');
+                nav.classList.remove('py-4', 'bg-background/80');
+            } else {
+                nav.classList.add('py-4', 'bg-background/80');
+                nav.classList.remove('py-2', 'bg-background/95', 'shadow-2xl');
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+            observer.observe(section);
+        });
+    </script>
+
+
+</body></html>
